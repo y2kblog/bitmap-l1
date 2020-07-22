@@ -27,6 +27,9 @@ int main(void)
   // Draw rectangle (10,20) - (30,30)
   BMP_L1_drawRect(pbmp, 10, 20, 30, 30, BMP_L1_BLACK);
 
+  // Draw text
+  BMP_L1_drawText(pbmp, "ABC", BMP_L1_FONT_6X10, 10, 80, BMP_L1_BLACK);
+
   // Save image
   fp = fopen("output.bmp", "wb");
   if (fp == NULL) {

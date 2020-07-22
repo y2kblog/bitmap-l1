@@ -1,7 +1,7 @@
 # Introduction
 This library is a open source L1 format (2 color: Black/White) bitmap library.
 L1 format is suitable for embedded systems because it does not consume much memory.
-You can create/delete bitmap images, get the color of a point, draw points/lines/rectangles, etc.
+You can create/delete bitmap images, get the color of a point, draw points/lines/rectangles/text, etc.
 This library also includes bicubic interpolation function.  
 The library consists of only two files: `bmp_l1.c` and `bmp_l1.h`.  
 
