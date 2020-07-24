@@ -19,10 +19,10 @@
 #define RANGE(x, min, max)	( (x < min) ? min : (x > max) ? max : x )
 #endif
 
-static const uint32_t FileHeaderSize  = 14; /* = 0x0E */
-static const uint32_t InfoHeaderSize  = 40; /* = 0x28 */
-static const uint32_t PaletteSize     = 2 * 4;
-static const uint32_t AllHeaderOffset = FileHeaderSize + InfoHeaderSize + PaletteSize;
+#define BMP_L1_FILE_HEADER_SIZE	14	// = 0x0E
+#define BMP_L1_INFO_HEADER_SIZE	40	// = 0x28
+#define BMP_L1_PALETTE_SIZE	    (2*4)
+static const uint32_t AllHeaderOffset = BMP_L1_FILE_HEADER_SIZE + BMP_L1_INFO_HEADER_SIZE + BMP_L1_PALETTE_SIZE;
 
 /* Private types -------------------------------------------------------------*/
 /* Private enum tag ----------------------------------------------------------*/
@@ -178,10 +178,10 @@ uint8_t *BMP_L1_create(uint32_t width, uint32_t height)
     BMP_L1_write_uint16_t(0                , tmp + 0x06);  // Reserved1
     BMP_L1_write_uint16_t(0                , tmp + 0x08);  // Reserved2
     BMP_L1_write_uint32_t(AllHeaderOffset  , tmp + 0x0A);  // Offset
-    tmp += FileHeaderSize;    // Next
+    tmp += BMP_L1_FILE_HEADER_SIZE;    // Next
 
     // Info header
-    BMP_L1_write_uint32_t( InfoHeaderSize  , tmp + 0x00);   // HeaderSize
+    BMP_L1_write_uint32_t( BMP_L1_INFO_HEADER_SIZE  , tmp + 0x00);   // HeaderSize
     BMP_L1_write_uint32_t( width           , tmp + 0x04);  // width  (*** Signed value ***)
     BMP_L1_write_uint32_t( height          , tmp + 0x08);  // height (*** Signed value ***)
     BMP_L1_write_uint16_t( 1               , tmp + 0x0C);  // planes
@@ -192,7 +192,7 @@ uint8_t *BMP_L1_create(uint32_t width, uint32_t height)
     BMP_L1_write_uint32_t( 0               , tmp + 0x1C);  // Y pixels per meter
     BMP_L1_write_uint32_t( 2               , tmp + 0x20);  // Color index
     BMP_L1_write_uint32_t( 0               , tmp + 0x24);  // Important index
-    tmp += InfoHeaderSize;    // Next
+    tmp += BMP_L1_INFO_HEADER_SIZE;    // Next
 
     // Palette data
     // Black
@@ -228,7 +228,7 @@ void BMP_L1_free(uint8_t *pbmp)
   */
 uint32_t BMP_L1_getWidth(uint8_t *pbmp)
 {
-    return BMP_L1_read_uint32_t(pbmp + FileHeaderSize + 0x04);
+    return BMP_L1_read_uint32_t(pbmp + BMP_L1_FILE_HEADER_SIZE + 0x04);
 }
 
 /**
@@ -238,7 +238,7 @@ uint32_t BMP_L1_getWidth(uint8_t *pbmp)
   */
 uint32_t BMP_L1_getHeight(uint8_t *pbmp)
 {
-    return BMP_L1_read_uint32_t(pbmp + FileHeaderSize + 0x08);
+    return BMP_L1_read_uint32_t(pbmp + BMP_L1_FILE_HEADER_SIZE + 0x08);
 }
 
 /**
@@ -258,7 +258,7 @@ uint32_t BMP_L1_getFileSize(uint8_t *pbmp)
   */
 uint32_t BMP_L1_getImageSize(uint8_t *pbmp)
 {
-    return BMP_L1_read_uint32_t(pbmp + FileHeaderSize + 0x14);
+    return BMP_L1_read_uint32_t(pbmp + BMP_L1_FILE_HEADER_SIZE + 0x14);
 }
 
 /**
